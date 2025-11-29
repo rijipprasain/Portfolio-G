@@ -12,7 +12,10 @@ const Experience: React.FC = () => {
         "Implemented CI/CD workflows and secure coding practices.",
         "Dockerized deployments for consistent development environments.",
         "Collaborated on full-scale SEO strategies to enhance visibility."
-      ]
+      ],
+      color: "border-cyan-500",
+      nodeColor: "bg-cyan-400",
+      shadow: "shadow-[0_0_15px_rgba(6,182,212,0.8)]"
     },
     {
       role: "Associate IT Engineer",
@@ -24,7 +27,10 @@ const Experience: React.FC = () => {
         "Hardened server security via firewall optimization and OS patching.",
         "Maintained comprehensive inventory and documentation systems.",
         "Assisted in network reliability upgrades and migrations."
-      ]
+      ],
+      color: "border-violet-500",
+      nodeColor: "bg-violet-400",
+      shadow: "shadow-[0_0_15px_rgba(139,92,246,0.8)]"
     },
     {
       role: "Fellowship on Infrastructure",
@@ -35,16 +41,19 @@ const Experience: React.FC = () => {
         "Administered Active Directory access controls and user permissions.",
         "Configured L2TP/IPSec VPNs for secure remote access.",
         "Diagnosed complex LAN/WAN connectivity issues for endpoint devices."
-      ]
+      ],
+      color: "border-emerald-500",
+      nodeColor: "bg-emerald-400",
+      shadow: "shadow-[0_0_15px_rgba(16,185,129,0.8)]"
     }
   ];
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-4 mb-12">
-        <span className="text-cyan-500 font-mono text-xl">03.</span>
-        <h2 className="text-3xl font-bold text-white tracking-tight">Mission History</h2>
-        <div className="h-[1px] bg-slate-800 flex-grow max-w-xs" />
+      <div className="flex items-center gap-4 mb-12 group">
+        <span className="text-cyan-500 font-mono text-xl group-hover:scale-110 transition-transform">03.</span>
+        <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-cyan-300 to-white bg-clip-text text-transparent bg-[length:200%_auto] group-hover:animate-gradient-x transition-all">Mission History</h2>
+        <div className="h-[1px] bg-gradient-to-r from-cyan-500/50 to-transparent flex-grow max-w-xs group-hover:max-w-md transition-all duration-500" />
       </div>
 
       <div className="space-y-12 pl-4 md:pl-0">
@@ -53,8 +62,8 @@ const Experience: React.FC = () => {
             
             {/* Left Side (Date/Location on Desktop) */}
             <div className="hidden md:flex flex-col items-end justify-start pt-2 text-right pr-6">
-                <span className="font-mono text-sm text-cyan-400 mb-1 tracking-wider">{exp.period}</span>
-                <span className="text-xs text-slate-500 flex items-center gap-1 uppercase tracking-wide font-semibold">
+                <span className="font-mono text-sm text-cyan-400 mb-1 tracking-wider group-hover:text-cyan-300 transition-colors">{exp.period}</span>
+                <span className="text-xs text-slate-500 flex items-center gap-1 uppercase tracking-wide font-semibold group-hover:text-slate-400">
                     {exp.location}
                 </span>
             </div>
@@ -62,11 +71,12 @@ const Experience: React.FC = () => {
             {/* Center Circuit Line */}
             <div className="flex flex-col items-center relative">
                 {/* Circuit Line */}
-                <div className="absolute top-0 bottom-0 w-[2px] bg-slate-800 group-hover:bg-cyan-900/50 transition-colors"></div>
+                <div className="absolute top-0 bottom-0 w-[2px] bg-slate-800 group-hover:bg-slate-700 transition-colors"></div>
                 
                 {/* Glowing Node */}
-                <div className="w-4 h-4 rounded-full border-2 border-cyan-500 bg-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.8)] z-10 mt-2 relative group-hover:scale-125 transition-transform duration-300">
-                  <div className="absolute inset-0 bg-cyan-400 rounded-full animate-ping opacity-20"></div>
+                <div className={`w-4 h-4 rounded-full border-2 ${exp.color} bg-slate-950 ${exp.shadow} z-10 mt-2 relative group-hover:scale-125 transition-transform duration-300`}>
+                  <div className={`absolute inset-0 ${exp.nodeColor} rounded-full animate-ping opacity-30`}></div>
+                  <div className={`absolute inset-0 ${exp.nodeColor} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                 </div>
             </div>
 
@@ -83,11 +93,11 @@ const Experience: React.FC = () => {
                 </h3>
                 <div className="text-slate-400 font-medium mb-4 font-mono text-sm">{exp.company}</div>
                 
-                <div className="bg-slate-900/30 border border-slate-800 p-5 rounded-md hover:border-slate-700 transition-colors">
+                <div className="bg-slate-900/30 border border-slate-800 p-6 rounded-xl hover:border-slate-600 transition-all duration-300 hover:bg-slate-900/60 hover:shadow-lg">
                   <ul className="space-y-3">
                       {exp.duties.map((duty, idx) => (
-                          <li key={idx} className="flex items-start gap-3 text-sm text-slate-400 leading-relaxed">
-                              <span className="mt-1.5 w-1.5 h-1.5 bg-cyan-500/50 rounded-full shrink-0"></span>
+                          <li key={idx} className="flex items-start gap-3 text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
+                              <span className={`mt-1.5 w-1.5 h-1.5 ${exp.nodeColor.replace('bg-', 'bg-')}/70 rounded-full shrink-0 shadow-[0_0_5px_currentColor]`}></span>
                               {duty}
                           </li>
                       ))}
