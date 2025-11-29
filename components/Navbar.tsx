@@ -8,7 +8,8 @@ const Navbar: React.FC = () => {
   // Handle scroll detection for styling
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // Increased threshold to 50px to make the initial scroll feel more deliberate
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -34,16 +35,18 @@ const Navbar: React.FC = () => {
     setMobileMenuOpen(false);
   };
 
+  // Shared transition class for consistent timing across all elements
+  const transitionClass = "transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
   return (
     <>
       {/* 
         Main Header Container 
         - pointer-events-none allows clicking through the empty space around the navbar
-        - z-50 ensures it stays on top
-        - Transitioning padding to 0 when scrolled to dock the nav
+        - Transitions padding to dock the navbar to the top
       */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 pointer-events-none ${
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none ${transitionClass} ${
           scrolled ? 'pt-0' : 'pt-6'
         }`}
       >
@@ -51,36 +54,74 @@ const Navbar: React.FC = () => {
           className={`
             pointer-events-auto relative
             flex items-center justify-between 
-            transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
+            ${transitionClass}
             ${scrolled 
               ? 'w-full bg-slate-950/90 backdrop-blur-xl border-b border-slate-800/60 shadow-xl py-4 px-6 md:px-12' 
               : 'w-[95%] md:w-[90%] max-w-7xl bg-transparent border border-transparent py-4 px-2'
             }
           `}
         >
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group select-none">
-            <div className={`p-2 rounded-lg transition-colors duration-300 ${
-              scrolled ? 'bg-cyan-950/30 text-cyan-400' : 'bg-slate-800/80 text-slate-200'
-            } group-hover:bg-cyan-500 group-hover:text-slate-900`}>
-              <Terminal size={18} />
+          {/* Logo Section */}
+          <a href="#" className="flex items-center gap-3 group select-none">
+            {/* Animated Icon Container */}
+            <div className={`
+              relative flex items-center justify-center rounded-lg ${transitionClass}
+              ${scrolled 
+                ? 'w-9 h-9 bg-cyan-950/30 text-cyan-400' 
+                : 'w-11 h-11 bg-slate-800/80 text-slate-200 shadow-lg shadow-black/20'
+              } 
+              group-hover:bg-cyan-500 group-hover:text-slate-900 group-hover:shadow-cyan-500/20
+            `}>
+              <Terminal 
+                size={scrolled ? 18 : 22} 
+                className={`${transitionClass}`} 
+              />
             </div>
-            <span className={`font-mono font-bold tracking-tight text-lg transition-colors ${
-              scrolled ? 'text-slate-200' : 'text-white'
-            }`}>
-              RIJIP<span className="text-cyan-500">_</span>
-            </span>
+
+            {/* Animated Text Container */}
+            <div className={`flex flex-col ${transitionClass}`}>
+              <span className={`font-mono font-bold leading-none flex items-center ${transitionClass} ${
+                scrolled ? 'text-slate-200' : 'text-white'
+              }`}>
+                {/* First Name - Always Visible, Resizes */}
+                <span className={`${transitionClass} ${
+                  scrolled ? 'text-lg tracking-normal' : 'text-2xl tracking-wide'
+                }`}>
+                  RIJIP
+                </span>
+
+                {/* Last Name - Collapses when scrolled */}
+                <span className={`
+                  inline-block overflow-hidden whitespace-nowrap ${transitionClass}
+                  ${scrolled ? 'max-w-0 opacity-0 -ml-0' : 'max-w-[200px] opacity-100 ml-2'}
+                `}>
+                  <span className={`${transitionClass} ${
+                    scrolled ? 'text-lg' : 'text-2xl text-cyan-100'
+                  }`}>
+                    PRASAIN
+                  </span>
+                </span>
+
+                {/* Underscore Cursor - Always Visible */}
+                <span className={`text-cyan-500 animate-pulse ${transitionClass} ${
+                   scrolled ? 'ml-0.5' : 'ml-1'
+                }`}>_</span>
+              </span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center gap-1 transition-all duration-300 ${
+          <div className={`hidden md:flex items-center gap-1 ${transitionClass} ${
               scrolled ? 'bg-transparent border-transparent' : 'bg-slate-950/20 border border-white/5 backdrop-blur-sm p-1 rounded-xl'
             }`}>
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
-                className="px-5 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-cyan-50 hover:bg-white/10 transition-all duration-200"
+                className={`
+                  rounded-lg font-medium hover:text-cyan-50 hover:bg-white/10 ${transitionClass}
+                  ${scrolled ? 'px-4 py-1.5 text-sm text-slate-300' : 'px-5 py-2 text-sm text-slate-300'}
+                `}
               >
                 {link.name}
               </a>
@@ -91,13 +132,13 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-3">
             <a 
               href="#contact"
-              className={`hidden md:flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 border ${
+              className={`hidden md:flex items-center gap-2 rounded-xl font-bold border ${transitionClass} ${
                 scrolled
-                  ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950'
-                  : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700 hover:text-white'
+                  ? 'px-4 py-1.5 text-xs bg-cyan-500/10 border-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950'
+                  : 'px-6 py-2.5 text-sm bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700 hover:text-white shadow-lg'
               }`}
             >
-              <Send size={14} />
+              <Send size={scrolled ? 14 : 16} className={transitionClass} />
               <span>Contact</span>
             </a>
 

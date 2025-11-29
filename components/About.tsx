@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, MapPin, GraduationCap, Target } from 'lucide-react';
+import { MapPin, GraduationCap, Target } from 'lucide-react';
 
 const About: React.FC = () => {
   return (

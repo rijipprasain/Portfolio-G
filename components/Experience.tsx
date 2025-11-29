@@ -1,5 +1,4 @@
 import React from 'react';
-import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 
 const Experience: React.FC = () => {
   const experiences = [

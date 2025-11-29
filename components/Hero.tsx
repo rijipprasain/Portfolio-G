@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, ChevronDown, Download, Terminal } from 'lucide-react';
+import { Shield, ChevronDown, Download } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
